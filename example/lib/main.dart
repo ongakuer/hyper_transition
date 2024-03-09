@@ -28,10 +28,10 @@ class HyperApp extends StatelessWidget {
           colorScheme:
               ColorScheme.fromSeed(seedColor: Colors.blueGrey.shade100),
           useMaterial3: true,
-          appBarTheme: const AppBarTheme(centerTitle: true),
           pageTransitionsTheme: const PageTransitionsTheme(
             builders: <TargetPlatform, PageTransitionsBuilder>{
-              TargetPlatform.android: HyperTransitionsBuilder(),
+              TargetPlatform.android: HyperSnapshotTransitionsBuilder(
+                  allowSnapshotting: true, allowEnterRouteSnapshotting: true),
               TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
               TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
             },
@@ -62,11 +62,17 @@ class ScreenB extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final corners = WindowCorners.getCorners();
     return Scaffold(
         appBar: AppBar(title: const Text("Screen B")),
         body: SafeArea(
           child: Column(
             children: [
+              Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: Text(
+                      "WindowCorners\ntopLeft: ${corners.topLeft}\ntopRight: ${corners.topRight}\nbottomRight: ${corners.bottomRight}\nbottomLeft: ${corners.bottomLeft}")),
               const Expanded(
                   child: Center(
                 child: RotateEndlessBox(),
@@ -122,7 +128,7 @@ class _RotateEndlessBoxState extends State<RotateEndlessBox>
                 height: 100,
                 color: Colors.amberAccent,
                 child: const Center(
-                    child: Text("A", style: TextStyle(fontSize: 20))),
+                    child: Text("文", style: TextStyle(fontSize: 20))),
               ));
         });
   }

@@ -1,6 +1,6 @@
 name: hyper_transition
 description: "HyperOS/MIUI Like PageTransitions"
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/ongakuer/hyper_transition
 
 
@@ -12,7 +12,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  window_rounded_corners: ^0.0.2
+  window_rounded_corners: ^0.0.3
+  logger: ^2.1.0
 
 
 dev_dependencies:

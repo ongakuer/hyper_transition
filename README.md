@@ -14,16 +14,13 @@ dependencies:
   # add window_rounded_corners
   window_rounded_corners: ^{latest version}
   # add hyper_transition
-  hyper_transition：^{latest version}
+  hyper_transition: ^{latest version}
 ```
 
 ## Usage
 
-```dart
-void main() {
-  runApp(const HyperApp());
-}
 
+```dart
 class HyperApp extends StatelessWidget {
   const HyperApp({super.key});
 
@@ -41,7 +38,7 @@ class HyperApp extends StatelessWidget {
           appBarTheme: const AppBarTheme(centerTitle: true),
           pageTransitionsTheme: const PageTransitionsTheme(
             builders: <TargetPlatform, PageTransitionsBuilder>{
-              TargetPlatform.android: HyperTransitionsBuilder(),
+              TargetPlatform.android: HyperSnapshotTransitionsBuilder(),
               TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
               TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
             },
@@ -53,10 +50,34 @@ class HyperApp extends StatelessWidget {
 ```
 
 
+
+### HyperSnapshotPageTransition
+
+
+Using SnapshotWidget to improve smoothness. But during the transition, the animation in the screen will be frozen.  refer to [ZoomPageTransitionsBuilder](https://api.flutter.dev/flutter/material/ZoomPageTransitionsBuilder-class.html)
+
+
+```dart
+HyperSnapshotTransitionsBuilder(allowSnapshotting: true,allowEnterRouteSnapshotting: true)
+```
+
+
+
+### HyperPageTransition
+ 
+
+Using Animation Widgets to achieve effects
+
+
+```dart
+HyperTransitionsBuilder()
+```
+
+
+
 ## Screenshot
 
-## Flutter 
-
+## HyperPageTransition 
 
 ![img](https://raw.githubusercontent.com/ongakuer/hyper_transition/main/screenshot/flutter.gif)
 

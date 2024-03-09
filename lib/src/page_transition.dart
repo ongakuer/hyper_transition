@@ -1,24 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:window_rounded_corners/window_rounded_corners.dart';
 
-class HyperTransitionsBuilder extends PageTransitionsBuilder {
-  const HyperTransitionsBuilder();
+class HyperPageTransition extends StatelessWidget {
+  const HyperPageTransition({
+    super.key,
+    required this.animation,
+    required this.secondaryAnimation,
+    this.child,
+  });
 
-  @override
-  Widget buildTransitions<T>(
-      PageRoute<T> route,
-      BuildContext context,
-      Animation<double> animation,
-      Animation<double> secondaryAnimation,
-      Widget child) {
-    return HyperTransition(
-        animation: animation,
-        secondaryAnimation: secondaryAnimation,
-        child: child);
-  }
-}
-
-class HyperTransition extends StatelessWidget {
   /// The animation that drives the [child]'s entrance and exit.
   final Animation<double> animation;
 
@@ -26,13 +16,6 @@ class HyperTransition extends StatelessWidget {
   /// of it.
   final Animation<double> secondaryAnimation;
   final Widget? child;
-
-  const HyperTransition({
-    super.key,
-    required this.animation,
-    required this.secondaryAnimation,
-    this.child,
-  });
 
   @override
   Widget build(BuildContext context) {
@@ -75,13 +58,13 @@ class _EnterTransition extends StatelessWidget {
   final bool reverse;
 
   /// X : 100% -> 0%
-  static final slideInAnimate = Tween<Offset>(
+  static final slideIn = Tween<Offset>(
     begin: const Offset(1.0, 0),
     end: Offset.zero,
   ).chain(CurveTween(curve: Curves.decelerate));
 
   /// X Reverse
-  static final slideOutAnimate = Tween<Offset>(
+  static final slideOut = Tween<Offset>(
     begin: Offset.zero,
     end: const Offset(1.0, 0),
   ).chain(CurveTween(curve: Curves.decelerate));
@@ -101,14 +84,12 @@ class _EnterTransition extends StatelessWidget {
           child: child);
     }
     return SlideTransition(
-      position: (reverse ? slideOutAnimate : slideInAnimate).animate(animation),
+      position: (reverse ? slideOut : slideIn).animate(animation),
       child: child,
     );
   }
 }
 
-/// Translate ：0 —> -120
-/// Alpha 1 —> 0.5
 class _ExitTransition extends StatelessWidget {
   const _ExitTransition(
       {required this.animation, this.reverse = false, this.child});
@@ -117,14 +98,15 @@ class _ExitTransition extends StatelessWidget {
   final bool reverse;
   final Widget? child;
 
-  static final Animatable<Offset> slideIn = Tween<Offset>(
-    begin: const Offset(-120.0, 0.0),
+  /// X : -20% -> 0%
+  static final slideIn = Tween<Offset>(
+    begin: const Offset(-0.2, 0),
     end: Offset.zero,
   ).chain(CurveTween(curve: Curves.decelerate));
 
-  static final Animatable<Offset> slideOut = Tween<Offset>(
+  static final slideOut = Tween<Offset>(
     begin: Offset.zero,
-    end: const Offset(-120.0, 0.0),
+    end: const Offset(-0.2, 0),
   ).chain(CurveTween(curve: Curves.decelerate));
 
   static final Animatable<double> alphaIn = Tween<double>(begin: 0.5, end: 1)
@@ -146,8 +128,9 @@ class _ExitTransition extends StatelessWidget {
             opacity: reverse
                 ? alphaOut.animate(animation)
                 : alphaIn.animate(animation),
-            child: Transform.translate(
-                offset: (reverse ? slideOut : slideIn).evaluate(animation),
-                child: child)));
+            child: SlideTransition(
+              position: (reverse ? slideOut : slideIn).animate(animation),
+              child: child,
+            )));
   }
 }
