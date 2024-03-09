@@ -1,4 +1,4 @@
-# hyper_transition
+# [hyper_transition](https://pub.dev/packages/hyper_transition)
 
 ![Pub Version](https://img.shields.io/pub/v/hyper_transition)
 
