@@ -290,14 +290,16 @@ class _ExitTransition extends StatefulWidget {
 class _ExitTransitionState extends State<_ExitTransition> {
   final SnapshotController snapshotController = SnapshotController();
 
+  static const double slideConst = -0.2;
+
   static final slideIn = Tween<double>(
-    begin: -0.12,
+    begin: slideConst,
     end: 0,
   ).chain(CurveTween(curve: Curves.decelerate));
 
   static final slideOut = Tween<double>(
     begin: 0,
-    end: -0.12,
+    end: slideConst,
   ).chain(CurveTween(curve: Curves.decelerate));
 
   static final Animatable<double> alphaIn = Tween<double>(begin: 0.5, end: 1)
@@ -363,7 +365,7 @@ class _ExitTransitionState extends State<_ExitTransition> {
   }
 
   void onAnimationValueChange() {
-    if (slideAnimate.value == 0 || slideAnimate.value == -0.12) {
+    if (slideAnimate.value == 0 || slideAnimate.value == slideConst) {
       snapshotController.allowSnapshotting = false;
     } else {
       snapshotController.allowSnapshotting = useSnapshot;
@@ -452,11 +454,9 @@ class _ExitPainter extends SnapshotPainter {
   @override
   void paintSnapshot(PaintingContext context, Offset offset, Size size,
       ui.Image image, Size sourceSize, double pixelRatio) {
-    final left = offset.dx + size.width * translate.value;
-    final right = offset.dy;
-
     final Rect src = Rect.fromLTWH(0, 0, sourceSize.width, sourceSize.height);
-    final Rect dst = Rect.fromLTWH(left, right, size.width, size.height);
+    final Rect dst = Rect.fromLTWH(offset.dx + size.width * translate.value,
+        offset.dy, size.width, size.height);
 
     final paint = Paint()..color = Colors.black;
     context.canvas.drawRect(dst, paint);
