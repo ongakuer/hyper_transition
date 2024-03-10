@@ -224,11 +224,8 @@ class _EnterPainter extends SnapshotPainter {
               painter(context, offset);
             } else {
               final bounds = Rect.fromLTWH(0, 0, size.width, size.height);
-              final clipRRect = RRect.fromLTRBAndCorners(
-                0,
-                0,
-                size.width,
-                size.height,
+              final clipRRect = RRect.fromRectAndCorners(
+                bounds,
                 topLeft: Radius.circular(corners.topLeft),
                 topRight: Radius.circular(corners.topRight),
                 bottomRight: Radius.circular(corners.bottomRight),
@@ -246,22 +243,19 @@ class _EnterPainter extends SnapshotPainter {
   @override
   void paintSnapshot(PaintingContext context, Offset offset, Size size,
       ui.Image image, Size sourceSize, double pixelRatio) {
-    final left = offset.dx + size.width * translate.value;
-    final right = offset.dy;
-
-    context.canvas.clipRRect(RRect.fromLTRBAndCorners(
-      left,
-      right,
-      left + size.width,
-      right + size.height,
-      topLeft: Radius.circular(corners.topLeft),
-      topRight: Radius.circular(corners.topRight),
-      bottomRight: Radius.circular(corners.bottomRight),
-      bottomLeft: Radius.circular(corners.bottomLeft),
-    ));
-
     final Rect src = Rect.fromLTWH(0, 0, sourceSize.width, sourceSize.height);
-    final Rect dst = Rect.fromLTWH(left, right, size.width, size.height);
+    final Rect dst = Rect.fromLTWH(offset.dx + size.width * translate.value,
+        offset.dy, size.width, size.height);
+
+    if (corners != Corners.zero) {
+      context.canvas.clipRRect(RRect.fromRectAndCorners(
+        dst,
+        topLeft: Radius.circular(corners.topLeft),
+        topRight: Radius.circular(corners.topRight),
+        bottomRight: Radius.circular(corners.bottomRight),
+        bottomLeft: Radius.circular(corners.bottomLeft),
+      ));
+    }
     context.canvas.drawImageRect(image, src, dst, Paint());
   }
 

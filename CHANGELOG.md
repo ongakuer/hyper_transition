@@ -9,3 +9,7 @@ The new HyperSnapshotPageTransition is implemented using SnapshotWidget to impro
 ## 0.0.3
 
 bugfix
+
+## 0.0.4
+
+Devices without rounded corners will not be clipped
