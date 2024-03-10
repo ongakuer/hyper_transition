@@ -59,6 +59,14 @@ Using SnapshotWidget to improve smoothness. But during the transition, the anima
 
 ```dart
 HyperSnapshotTransitionsBuilder(allowSnapshotting: true,allowEnterRouteSnapshotting: true)
+
+HyperSnapshotPageTransition(
+  animation: animation,
+  secondaryAnimation: secondaryAnimation,
+  allowSnapshotting: true,
+  allowEnterRouteSnapshotting: true,
+  child: child
+)
 ```
 
 
@@ -71,11 +79,24 @@ Using Animation Widgets to achieve effects
 
 ```dart
 HyperTransitionsBuilder()
+
+HyperPageTransition(
+  animation: animation,
+  secondaryAnimation: secondaryAnimation,
+  child: child
+)
 ```
 
 
 
 ## Screenshot
+
+## HyperSnapshotPageTransition 
+* allowSnapshotting: true
+* allowEnterRouteSnapshotting: true
+
+![img](https://raw.githubusercontent.com/ongakuer/hyper_transition/main/screenshot/flutter-snapshot.gif)
+
 
 ## HyperPageTransition 
 
